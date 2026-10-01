@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | RicePulse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #15803d;
+            --primary-dark: #0f5128;
+            --primary-light: #22c55e;
+            --surface: #ffffff;
+            --bg: #f8faf9;
+            --text-main: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-card: 0 20px 45px -10px rgba(21, 128, 61, 0.1), 0 8px 20px -4px rgba(15, 23, 42, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 15% 15%, rgba(220, 247, 227, 0.5) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(200, 240, 215, 0.4) 0%, transparent 50%),
+                        var(--bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        /* HEADER / NAVBAR */
+        header {
+            height: 76px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid #edf2ee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            width: 90%;
+            max-width: 1200px;
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #0f351b;
+        }
+
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #e8f7ee, #c8eed6);
+            border: 1px solid #b2e4c3;
+            border-radius: 12px;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+        }
+
+        .logo span:last-child span {
+            color: var(--primary);
+        }
+
+        .back-home {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: #f1f6f2;
+            border: 1px solid #e2ece4;
+        }
+
+        .back-home:hover {
+            color: var(--primary);
+            background: #e6f4ea;
+            border-color: #c5e6ce;
+        }
+
+        /* LOGIN CONTAINER */
+        .login-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 45px 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--surface);
+            padding: 42px 38px;
+            border-radius: var(--radius-lg);
+            border: 1px solid #e1e9e3;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eaf7ed, #dcf2e2);
+            border: 1px solid #c8ebd1;
+            border-radius: 18px;
+            font-size: 28px;
+            box-shadow: 0 4px 14px rgba(21, 128, 61, 0.12);
+        }
+
+        .login-header h1 {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: #0c1e13;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px 13px 44px;
+            border: 1.5px solid #dbe3dc;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            color: #0f172a;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.12);
+            background: #ffffff;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 48px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #64748b;
+            padding: 6px;
+            border-radius: 6px;
+            transition: color 0.2s;
+        }
+
+        .show-password:hover {
+            color: var(--text-main);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 6px 0 24px;
+            font-size: 13px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .remember input {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .forgot:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #15803d, #166534);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(21, 128, 61, 0.25);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #166534, #14532d);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(21, 128, 61, 0.35);
+        }
+
+        .login-btn:disabled {
+            background: #94a3b8;
+            box-shadow: none;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            display: block;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 24px 0;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            background: #e2e8f0;
+            flex: 1;
+        }
+
+        .register-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .register-text a {
+            color: var(--primary);
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
+        .register-text a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .security {
+            text-align: center;
+            margin-top: 24px;
+            color: #94a3b8;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 500px) {
+            header {
+                height: 66px;
+            }
+
+            .login-card {
+                padding: 30px 22px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🌾</span>
+                <span>
+                    Rice<span>Pulse</span>
+                </span>
+            </a>
+
+            <a href="index.html" class="back-home">
+                ← Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- LOGIN -->
+    <main class="login-container">
+        <div class="login-card">
+
+            <div class="login-header">
+                <div class="login-icon">
+                    🔐
+                </div>
+                <h1>Welcome Back</h1>
+                <p>
+                    Login to your RicePulse account
+                    to access your dashboard.
+                </p>
+            </div>
+
+            <!-- MESSAGE -->
+            <div id="message" class="message"></div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+                <div class="form-group">
+                    <label for="email">
+                        Gmail / Email Address
+                    </label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            ✉️
+                        </span>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="example@gmail.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="form-group">
+                    <label for="password">
+                        Password
+                    </label>
+                    <div class="input-wrapper password-wrapper">
+                        <span class="input-icon">
+                            🔒
+                        </span>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button
+                            type="button"
+                            class="show-password"
+                            id="showPassword"
+                        >
+                            👁
+                        </button>
+                    </div>
+                </div>
+
+                <!-- OPTIONS -->
+                <div class="form-options">
+                    <label class="remember">
+                        <input
+                            type="checkbox"
+                            id="remember"
+                        >
+                        Remember me
+                    </label>
+
+                    <a
+                        href="forgot-password.html"
+                        class="forgot"
+                    >
+                        Forgot password?
+                    </a>
+                </div>
+
+                <!-- LOGIN BUTTON -->
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginButton"
+                >
+                    Login to RicePulse
+                </button>
+
+            </form>
+
+            <div class="divider">
+                OR
+            </div>
+
+            <!-- REGISTER -->
+            <div class="register-text">
+                Don't have a RicePulse account?
+                <a href="register.html">
+                    Create Account
+                </a>
+            </div>
+
+            <div class="security">
+                <span>🔒</span> Your account information is securely protected.
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // API URL
+        // ==========================================
+        const LOGIN_API =
+            "https://76top6kvwh.execute-api.us-east-1.amazonaws.com/login";
+
+        // ==========================================
+        // SHOW / HIDE PASSWORD
+        // ==========================================
+        const passwordInput =
+            document.getElementById("password");
+        const showPassword =
+            document.getElementById("showPassword");
+
+        showPassword.addEventListener("click", function () {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                showPassword.textContent = "🙈";
+            } else {
+                passwordInput.type = "password";
+                showPassword.textContent = "👁";
+            }
+        });
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+        const loginForm =
+            document.getElementById("loginForm");
+        const message =
+            document.getElementById("message");
+        const loginButton =
+            document.getElementById("loginButton");
+
+        loginForm.addEventListener("submit", async function (event) {
+            // Stop normal form submission
+            event.preventDefault();
+
+            // Get values
+            const email =
+                document.getElementById("email").value
+                    .trim()
+                    .toLowerCase();
+
+            const password =
+                document.getElementById("password").value;
+
+            // Clear old message
+            message.className = "message";
+            message.textContent = "";
+
+            // Disable button
+            loginButton.disabled = true;
+            loginButton.textContent = "Logging in...";
+
+            try {
+                // ==========================================
+                // SEND LOGIN REQUEST
+                // ==========================================
+                const response = await fetch(
+                    LOGIN_API,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                const result =
+                    await response.json();
+
+                console.log(
+                    "Login response:",
+                    result
+                );
+
+                // ==========================================
+                // LOGIN FAILED
+                // ==========================================
+                if (!response.ok) {
+                    message.className =
+                        "message error";
+                    message.textContent =
+                        result.message ||
+                        "Invalid email or password.";
+
+                    loginButton.disabled = false;
+                    loginButton.textContent =
+                        "Login to RicePulse";
+                    return;
+                }
+
+                // ==========================================
+                // LOGIN SUCCESS
+                // ==========================================
+                if (result.token) {
+                    // Store JWT
+                    localStorage.setItem(
+                        "ricepulse_token",
+                        result.token
+                    );
+
+                    // Store user information
+                    if (result.user) {
+                        localStorage.setItem(
+                            "ricepulse_user",
+                            JSON.stringify(result.user)
+                        );
+                    }
+
+                    message.className =
+                        "message success";
+                    message.textContent =
+                        "Login successful! Redirecting...";
+
+                    // Redirect to dashboard
+                    setTimeout(function () {
+                        window.location.href =
+                            "dashboard.html";
+                    }, 800);
+                } else {
+                    message.className =
+                        "message error";
+                    message.textContent =
+                        "Login succeeded but no token was received.";
+                }
+            } catch (error) {
+                console.error(
+                    "Login error:",
+                    error
+                );
+                message.className =
+                    "message error";
+                message.textContent =
+                    "Unable to connect to the server. Please try again.";
+            }
+
+            // Enable button
+            loginButton.disabled = false;
+            if (message.classList.contains("error")) {
+                loginButton.textContent =
+                    "Login to RicePulse";
+            }
+        });
+    </script>
+</body>
+</html>

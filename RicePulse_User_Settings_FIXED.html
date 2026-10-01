@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RicePulse - User Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#15803d;
+  --primary-dark:#0f5128;
+  --primary-light:#22c55e;
+  --soft:#f0fdf4;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --bg:#f8faf9;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --shadow-card:0 12px 35px -8px rgba(21, 128, 61, 0.08), 0 4px 14px -2px rgba(15, 23, 42, 0.03);
+}
+body{
+  min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.topbar{
+  height:74px;background:rgba(255,255,255,0.9);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid #edf2ee;
+  display:flex;align-items:center;justify-content:space-between;padding:0 36px;
+  position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;align-items:center;gap:11px;color:#0f351b;font-size:21px;font-weight:800;letter-spacing:-0.5px}
+.logo{
+  width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#e8f7ee,#c8eed6);
+  border:1px solid #b2e4c3;display:flex;align-items:center;justify-content:center;
+  font-size:20px;box-shadow:0 2px 8px rgba(34,197,94,0.15)
+}
+.back{
+  border:1px solid #dcece0;background:#f1f7f3;color:#15803d;padding:9px 16px;
+  border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;
+  transition:all 0.2s ease;display:inline-flex;align-items:center;gap:6px;
+}
+.back:hover{background:#e4f3e8;border-color:#b5e3c1;transform:translateX(-2px)}
+.container{max-width:880px;margin:auto;padding:40px 24px 60px}
+.heading{margin-bottom:26px}
+.heading h1{font-size:28px;letter-spacing:-0.6px;margin-bottom:6px;font-weight:800;color:#0c1e13}
+.heading p{color:var(--muted);font-size:14.5px}
+.profile-card{
+  background:#fff;border:1px solid #e1e9e3;border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card);overflow:hidden;
+}
+.profile-head{
+  padding:32px 36px;display:flex;align-items:center;gap:22px;
+  background:linear-gradient(135deg,#edf9f0 0%,#ffffff 80%);
+  border-bottom:1px solid #edf2ee;
+}
+.avatar{
+  width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+  border:4px solid #ffffff;box-shadow:0 6px 18px rgba(21,128,61,0.15);
+  display:flex;align-items:center;justify-content:center;color:#15803d;
+  font-size:32px;font-weight:800;
+}
+.profile-head h2{font-size:23px;font-weight:800;letter-spacing:-0.4px;color:#0c1e13;margin-bottom:4px}
+.profile-head p{
+  display:inline-block;padding:3px 12px;background:#eaf7ed;color:#15803d;
+  border:1px solid #c9ebd2;border-radius:20px;font-size:12px;font-weight:700;
+}
+.details{padding:32px 36px}
+.details h3{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:18px;letter-spacing:-0.2px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info{
+  background:#f8faf9;border:1.5px solid #edf2ef;border-radius:12px;padding:16px 18px;
+  transition:all 0.2s ease;
+}
+.info:hover{border-color:#bfe5cc;background:#ffffff;box-shadow:0 4px 12px rgba(21,128,61,0.04)}
+.label{
+  display:block;font-size:11px;color:#64748b;text-transform:uppercase;
+  letter-spacing:0.8px;font-weight:700;margin-bottom:6px
+}
+.value{font-size:15px;font-weight:700;color:#0f172a;word-break:break-word}
+.actions{
+  padding:0 36px 32px;display:flex;gap:12px;justify-content:flex-end;
+}
+.btn{
+  border:0;border-radius:10px;padding:11px 18px;font-size:13px;
+  font-weight:700;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+.secondary{background:#f1f5f3;color:#284b38;border:1px solid #dcece1}
+.secondary:hover{background:#e6efe9;color:#15803d}
+.logout{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.logout:hover{background:#fee2e2;color:#991b1b;transform:translateY(-1px)}
+.note{
+  margin-top:24px;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;
+  border-radius:10px;color:#166534;font-size:12.5px;line-height:1.5;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+}
+.note::before{content:'ℹ️';font-size:15px}
+.error{
+  display:none;margin-bottom:20px;padding:14px 18px;border-radius:10px;
+  background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;font-size:13px;font-weight:500;
+}
+.error.show{display:block}
+@media(max-width:680px){
+  .topbar{padding:0 18px;height:66px}
+  .container{padding:24px 16px}
+  .info-grid{grid-template-columns:1fr}
+  .profile-head{padding:24px 20px;flex-direction:column;text-align:center}
+  .details{padding:24px 20px}
+  .actions{padding:0 20px 24px;flex-direction:column}
+  .btn{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+ <div class="brand"><div class="logo">🌾</div>RicePulse</div>
+ <button class="back" onclick="goDashboard()">← Dashboard</button>
+</header>
+
+<main class="container">
+ <div class="heading">
+   <h1>User Profile</h1>
+   <p>View the personal information associated with your RicePulse account.</p>
+ </div>
+
+ <div class="error" id="errorBox"></div>
+
+ <section class="profile-card">
+   <div class="profile-head">
+     <div class="avatar" id="avatar">U</div>
+     <div>
+       <h2 id="displayName">User</h2>
+       <p id="profileRole">RicePulse User</p>
+     </div>
+   </div>
+
+   <div class="details">
+     <h3>Personal Information</h3>
+     <div class="info-grid">
+       <div class="info">
+         <span class="label">Full Name</span>
+         <div class="value" id="name">--</div>
+       </div>
+       <div class="info">
+         <span class="label">Phone Number</span>
+         <div class="value" id="phone">--</div>
+       </div>
+       <div class="info">
+         <span class="label">Email Address</span>
+         <div class="value" id="email">--</div>
+       </div>
+       <div class="info">
+         <span class="label">User ID</span>
+         <div class="value" id="userId">--</div>
+       </div>
+     </div>
+
+     <div class="note" id="profileSourceNote">
+       Loading your account information...
+     </div>
+   </div>
+
+   <div class="actions">
+     <button class="btn secondary" onclick="goDashboard()">Back to Dashboard</button>
+     <button class="btn logout" onclick="logout()">🚪 Logout</button>
+   </div>
+ </section>
+</main>
+
+<script>
+/*
+ * RicePulse User Profile
+ *
+ * This page reads the currently signed-in user's information from the
+ * browser session. It supports common storage layouts and JWT claims.
+ *
+ * If your authentication stores only a user ID/token and keeps name/phone
+ * exclusively in DynamoDB, the login/auth API must also return those fields
+ * (or a profile endpoint must be configured) because browser HTML cannot
+ * read DynamoDB directly.
+ */
+
+const PROFILE_API_URL = ""; // Optional: put your authenticated profile API endpoint here.
+
+function clean(value){
+    if(value === null || value === undefined) return "";
+    return String(value).trim();
+}
+
+function firstValue(objects, keys){
+    for(const obj of objects){
+        if(!obj || typeof obj !== "object") continue;
+        for(const key of keys){
+            if(obj[key] !== undefined && obj[key] !== null && clean(obj[key]) !== ""){
+                return obj[key];
+            }
+        }
+    }
+    return "";
+}
+
+function parseJSON(value){
+    try{
+        return JSON.parse(value);
+    }catch{
+        return null;
+    }
+}
+
+function decodeJwt(token){
+    if(!token || typeof token !== "string") return null;
+    const parts = token.split(".");
+    if(parts.length !== 3) return null;
+
+    try{
+        const base64 = parts[1].replace(/-/g,"+").replace(/_/g,"/");
+        const padded = base64 + "=".repeat((4 - base64.length % 4) % 4);
+        const binary = atob(padded);
+        const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+        const payload = new TextDecoder().decode(bytes);
+        return JSON.parse(payload);
+    }catch{
+        return null;
+    }
+}
+
+function collectBrowserData(){
+    const objects = [];
+    const tokens = [];
+
+    const storages = [localStorage, sessionStorage];
+
+    for(const storage of storages){
+        for(let i=0;i<storage.length;i++){
+            const key = storage.key(i);
+            if(!key) continue;
+
+            const raw = storage.getItem(key);
+            if(!raw) continue;
+
+            const parsed = parseJSON(raw);
+            if(parsed && typeof parsed === "object"){
+                objects.push(parsed);
+                if(parsed.user && typeof parsed.user === "object") objects.push(parsed.user);
+                if(parsed.profile && typeof parsed.profile === "object") objects.push(parsed.profile);
+                if(parsed.data && typeof parsed.data === "object") objects.push(parsed.data);
+            }
+
+            if(typeof raw === "string" && raw.split(".").length === 3){
+                tokens.push(raw);
+            }
+        }
+    }
+
+    for(const obj of objects){
+        for(const prop of ["token","jwt","accessToken","idToken","access_token","id_token"]){
+            if(typeof obj[prop] === "string" && obj[prop].split(".").length === 3){
+                tokens.push(obj[prop]);
+            }
+        }
+    }
+
+    const uniqueTokens = [...new Set(tokens)];
+    for(const token of uniqueTokens){
+        const payload = decodeJwt(token);
+        if(payload) objects.push(payload);
+    }
+
+    return {objects, tokens: uniqueTokens};
+}
+
+function getProfileFromBrowser(){
+    const {objects} = collectBrowserData();
+
+    const name =
+        firstValue(objects, [
+            "name", "fullName", "full_name", "displayName", "display_name",
+            "cognito:username", "username"
+        ]) ||
+        localStorage.getItem("name") ||
+        localStorage.getItem("fullName") ||
+        sessionStorage.getItem("name") ||
+        sessionStorage.getItem("fullName") ||
+        "";
+
+    const phone =
+        firstValue(objects, [
+            "phone", "phoneNumber", "phone_number", "mobile", "mobileNumber",
+            "contact", "contactNumber"
+        ]) ||
+        localStorage.getItem("phone") ||
+        localStorage.getItem("phoneNumber") ||
+        sessionStorage.getItem("phone") ||
+        sessionStorage.getItem("phoneNumber") ||
+        "";
+
+    const email =
+        firstValue(objects, [
+            "email", "emailAddress", "email_address"
+        ]) ||
+        localStorage.getItem("email") ||
+        sessionStorage.getItem("email") ||
+        "";
+
+    const userId =
+        firstValue(objects, [
+            "user_id", "userId", "id", "sub", "username"
+        ]) ||
+        localStorage.getItem("userId") ||
+        sessionStorage.getItem("userId") ||
+        "";
+
+    const role =
+        firstValue(objects, [
+            "role", "userRole", "user_role", "custom:role"
+        ]) ||
+        "RicePulse User";
+
+    return {
+        name: clean(name),
+        phone: clean(phone),
+        email: clean(email),
+        userId: clean(userId),
+        role: clean(role)
+    };
+}
+
+function hasProfileData(profile){
+    return Boolean(profile.name || profile.phone || profile.email || profile.userId);
+}
+
+function applyProfile(profile, source){
+    const name = profile.name || "User";
+    const role = profile.role || "RicePulse User";
+
+    document.getElementById("name").textContent = profile.name || "--";
+    document.getElementById("displayName").textContent = name;
+    document.getElementById("phone").textContent = profile.phone || "--";
+    document.getElementById("email").textContent = profile.email || "--";
+    document.getElementById("userId").textContent = profile.userId || "--";
+    document.getElementById("profileRole").textContent = role;
+
+    const initial = name.trim().charAt(0).toUpperCase() || "U";
+    document.getElementById("avatar").textContent = initial;
+
+    document.getElementById("profileSourceNote").textContent =
+        source === "api"
+        ? "Profile information loaded from your RicePulse account."
+        : "Profile information loaded from the current signed-in browser session.";
+}
+
+async function loadProfile(){
+    let profile = getProfileFromBrowser();
+
+    // Optional authenticated API support. No endpoint is invented.
+    if(PROFILE_API_URL){
+        try{
+            const {tokens} = collectBrowserData();
+            const token = tokens[0];
+
+            const response = await fetch(PROFILE_API_URL,{
+                method:"GET",
+                headers:{
+                    "Content-Type":"application/json",
+                    ...(token ? {"Authorization":"Bearer " + token} : {})
+                }
+            });
+
+            if(response.ok){
+                const data = await response.json();
+                const apiObjects = [data, data.user, data.profile, data.data].filter(Boolean);
+
+                const apiProfile = {
+                    name:firstValue(apiObjects,["name","fullName","full_name","displayName"]),
+                    phone:firstValue(apiObjects,["phone","phoneNumber","phone_number","mobile"]),
+                    email:firstValue(apiObjects,["email","emailAddress","email_address"]),
+                    userId:firstValue(apiObjects,["user_id","userId","id","sub"]),
+                    role:firstValue(apiObjects,["role","userRole","user_role"])
+                };
+
+                if(hasProfileData(apiProfile)){
+                    profile = apiProfile;
+                    applyProfile(profile,"api");
+                    return;
+                }
+            }
+        }catch(error){
+            console.warn("Profile API unavailable:", error);
+        }
+    }
+
+    if(hasProfileData(profile)){
+        applyProfile(profile,"browser");
+        return;
+    }
+
+    showError(
+        "Your account is signed in, but the profile fields are not available in the browser session. " +
+        "Store the user's name, phone number and email when login/signup succeeds, or connect PROFILE_API_URL to your authenticated profile API."
+    );
+}
+
+function showError(message){
+    const box = document.getElementById("errorBox");
+    box.textContent = message;
+    box.classList.add("show");
+}
+
+function goDashboard(){
+    window.location.href = "dashboard.html";
+}
+
+function logout(){
+    if(!confirm("Are you sure you want to logout?")) return;
+
+    [
+        "token","jwt","accessToken","idToken","access_token","id_token",
+        "user","currentUser","userData","profile","name","fullName",
+        "phone","phoneNumber","email","userId"
+    ].forEach(key=>localStorage.removeItem(key));
+
+    sessionStorage.clear();
+    window.location.href = "login.html";
+}
+
+window.addEventListener("DOMContentLoaded",loadProfile);
+</script>
+</body>
+</html>

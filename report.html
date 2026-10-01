@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RicePulse - Quality Inspection Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #15803d;
+            --primary-dark: #0f5128;
+            --primary-soft: #f0fdf4;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --bg: #f8faf9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .report-wrapper {
+            max-width: 820px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 24px;
+            margin-bottom: 28px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f351b;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #e8f7ee, #c8eed6);
+            border: 1px solid #b2e4c3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .sub {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Overview Hero */
+        .overview-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .overview-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .overview-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .overview-val {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .grade-highlight {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        /* Sections */
+        h2 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 26px 0 12px;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        th,
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #edf2f7;
+            text-align: left;
+        }
+
+        tr:last-child td,
+        tr:last-child th {
+            border-bottom: 0;
+        }
+
+        th {
+            background: #f8fafc;
+            width: 44%;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        td {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #eaf7ed;
+            color: var(--primary);
+        }
+
+        .status-pill.anomaly {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .footer {
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: var(--text-muted);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .report-wrapper {
+                padding: 22px 18px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .overview-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .report-wrapper {
+                box-shadow: none;
+                border: 0;
+                padding: 10px;
+            }
+
+            .header-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="report-wrapper">
+
+        <div class="header">
+            <div>
+                <div class="brand">
+                    <div class="brand-icon">🌾</div>
+                    <span>RicePulse</span>
+                </div>
+                <div class="sub">Rice Quality Inspection Report &bull; Verified Analysis</div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="window.print()">
+                    🖨️ Print / Save PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- OVERVIEW STATS -->
+        <div class="overview-cards">
+            <div class="overview-card">
+                <div class="overview-label">Quality Grade</div>
+                <div class="overview-val grade-highlight" id="cardGrade">--</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-label">Variety</div>
+                <div class="overview-val" id="cardVariety">--</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-label">Purity</div>
+                <div class="overview-val" id="cardPurity">--%</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-label">Status</div>
+                <div class="overview-val" id="cardStatus">--</div>
+            </div>
+        </div>
+
+        <!-- QUALITY CLASSIFICATION -->
+        <h2>📋 Quality Classification</h2>
+        <table>
+            <tr>
+                <th>Final Quality Grade</th>
+                <td id="repGrade">--</td>
+            </tr>
+            <tr>
+                <th>Rice Variety</th>
+                <td id="repVariety">--</td>
+            </tr>
+            <tr>
+                <th>Purity</th>
+                <td id="repPurity">--%</td>
+            </tr>
+            <tr>
+                <th>Moisture Content</th>
+                <td id="repMoisture">--%</td>
+            </tr>
+            <tr>
+                <th>Grain Size — Length</th>
+                <td id="repLength">-- mm</td>
+            </tr>
+            <tr>
+                <th>Grain Size — Width</th>
+                <td id="repWidth">-- mm</td>
+            </tr>
+            <tr>
+                <th>Grain Shape — L/W Ratio</th>
+                <td id="repRatio">--</td>
+            </tr>
+            <tr>
+                <th>Anomaly Detection</th>
+                <td id="repAnomaly">--</td>
+            </tr>
+        </table>
+
+        <!-- GRAIN CONDITION -->
+        <h2>🔬 Grain Condition & Defects</h2>
+        <table>
+            <tr>
+                <th>Broken Grain</th>
+                <td id="repBroken">--%</td>
+            </tr>
+            <tr>
+                <th>Discolored Grain</th>
+                <td id="repDiscolored">--%</td>
+            </tr>
+            <tr>
+                <th>Average Discoloration</th>
+                <td id="repAvgDiscoloration">--%</td>
+            </tr>
+        </table>
+
+        <!-- VARIETY COMPOSITION -->
+        <h2>🌾 Variety Composition</h2>
+        <table>
+            <tr>
+                <th>Basmati</th>
+                <td id="repBasmati">--%</td>
+            </tr>
+            <tr>
+                <th>Masoori</th>
+                <td id="repMasoori">--%</td>
+            </tr>
+            <tr>
+                <th>SonaMasoori</th>
+                <td id="repSonaMasoori">--%</td>
+            </tr>
+        </table>
+
+        <!-- ENVIRONMENTAL READINGS -->
+        <h2>🌡️ Environmental Readings</h2>
+        <table>
+            <tr>
+                <th>Temperature</th>
+                <td id="repTemp">-- °C</td>
+            </tr>
+            <tr>
+                <th>Humidity</th>
+                <td id="repHumidity">--%</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            <div id="processedTimestamp">Processed: --</div>
+            <div>RicePulse Smart Agriculture System</div>
+        </div>
+
+    </div>
+
+    <script>
+        function num(val) {
+            if (val === null || val === undefined || val === "") return null;
+            const n = Number(val);
+            return Number.isFinite(n) ? n : null;
+        }
+
+        function fmt(val, unit = "") {
+            const n = num(val);
+            if (n === null) return "--";
+            return n.toFixed(2) + (unit ? " " + unit : "");
+        }
+
+        function loadReportData() {
+            let sample = null;
+
+            // 1. Try URL ?data= parameter
+            const params = new URLSearchParams(window.location.search);
+            const rawData = params.get("data");
+            if (rawData) {
+                try {
+                    sample = JSON.parse(decodeURIComponent(rawData));
+                } catch (e1) {
+                    try {
+                        sample = JSON.parse(atob(rawData));
+                    } catch (e2) {
+                        console.warn("Could not decode URL data:", e1, e2);
+                    }
+                }
+            }
+
+            // 2. Fallback to localStorage recent reports
+            if (!sample) {
+                try {
+                    const reports = JSON.parse(localStorage.getItem("ricepulse_recent_reports") || "[]");
+                    const idx = parseInt(params.get("index") || "0", 10);
+                    if (reports.length > idx) {
+                        sample = reports[idx];
+                    } else if (reports.length > 0) {
+                        sample = reports[0];
+                    }
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+
+            if (!sample) {
+                document.body.innerHTML = `
+            <div style="max-width:500px;margin:80px auto;text-align:center;padding:40px;background:white;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.06);">
+                <div style="font-size:40px;margin-bottom:14px;">🌾</div>
+                <h2 style="font-size:20px;margin-bottom:8px;color:#0f172a;">No Report Data Available</h2>
+                <p style="color:#64748b;font-size:14px;margin-bottom:20px;">Please open the report from your RicePulse Dashboard or scan a valid QR code.</p>
+                <a href="dashboard.html" style="display:inline-block;padding:10px 20px;background:#15803d;color:white;text-decoration:none;border-radius:8px;font-weight:700;">Go to Dashboard</a>
+            </div>
+        `;
+                return;
+            }
+
+            const q = sample.quality || {};
+            const v = sample.variety || {};
+            const sn = sample.sensor || {};
+            const b = v.breakdown_pct || {};
+
+            const grade = q.grade || "--";
+            const type = v.dominant || sample.rice_type || "--";
+            const purity = v.purity_pct;
+            const status = String(sample.overall_status || "NORMAL").toUpperCase();
+            const moisture = sample.moisture_percent ?? sn.moisture_percent;
+            const anomaly = sample.anomaly_detected || sn.anomaly;
+
+            // Overview cards
+            document.getElementById("cardGrade").textContent = grade;
+            document.getElementById("cardVariety").textContent = type;
+            document.getElementById("cardPurity").textContent = purity != null ? fmt(purity) + "%" : "--";
+            document.getElementById("cardStatus").textContent = status;
+
+            // Table elements
+            document.getElementById("repGrade").textContent = grade;
+            document.getElementById("repVariety").textContent = type;
+            document.getElementById("repPurity").textContent = purity != null ? fmt(purity) + "%" : "--";
+            document.getElementById("repMoisture").textContent = moisture != null ? fmt(moisture) + "%" : "--";
+            document.getElementById("repLength").textContent = fmt(q.avg_length_mm, "mm");
+            document.getElementById("repWidth").textContent = fmt(q.avg_width_mm, "mm");
+            document.getElementById("repRatio").textContent = fmt(q.lw_ratio);
+
+            const anomEl = document.getElementById("repAnomaly");
+            if (anomaly) {
+                anomEl.innerHTML = '<span class="status-pill anomaly">⚠ Anomaly Detected</span>';
+            } else {
+                anomEl.innerHTML = '<span class="status-pill">✓ No anomaly detected</span>';
+            }
+
+            // Grain Condition
+            document.getElementById("repBroken").textContent = fmt(q.broken_pct) + "%";
+            document.getElementById("repDiscolored").textContent = fmt(q.discolored_pct) + "%";
+            document.getElementById("repAvgDiscoloration").textContent = fmt(q.avg_discoloration_pct) + "%";
+
+            // Variety Composition
+            document.getElementById("repBasmati").textContent = fmt(b.Basmati) + "%";
+            document.getElementById("repMasoori").textContent = fmt(b.Masoori) + "%";
+            document.getElementById("repSonaMasoori").textContent = fmt(b.SonaMasoori) + "%";
+
+            // Environmental Readings
+            document.getElementById("repTemp").textContent = fmt(sample.temperature_c ?? sn.temperature_c) + " °C";
+            document.getElementById("repHumidity").textContent = fmt(sample.humidity ?? sn.humidity) + "%";
+
+            // Timestamp
+            if (sample.processed_at) {
+                const d = new Date(sample.processed_at);
+                document.getElementById("processedTimestamp").textContent =
+                    "Processed: " + (Number.isNaN(d.getTime()) ? sample.processed_at : d.toLocaleString());
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", loadReportData);
+    </script>
+
+</body>
+
+</html>
